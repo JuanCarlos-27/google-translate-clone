@@ -1,11 +1,14 @@
-import { useStore } from '../hooks/useStore'
-import { InterchangeIcon } from './Icons'
 import '../sass/App.scss'
+import 'react-tooltip/dist/react-tooltip.css'
+import { useStore } from '../hooks/useStore'
+import { ClipboardIcon, InterchangeIcon } from './Icons'
 import { LanguageSelector } from './LanguageSelector'
 import { SectionType } from '../types.d'
 import TextArea from './TextArea'
 import { useEffect } from 'react'
 import { translate } from '../services/translate'
+import { useDebounce } from '../hooks/useDebounce'
+import { Tooltip } from 'react-tooltip'
 
 function App () {
   const {
@@ -21,17 +24,24 @@ function App () {
     loading
   } = useStore()
 
-  useEffect(() => {
-    if (fromText === '') return
+  const debouncedFromText = useDebounce(fromText)
 
-    translate({ fromLanguage, toLanguage, text: fromText })
+  useEffect(() => {
+    if (debouncedFromText === '') return
+    translate({ fromLanguage, toLanguage, text: debouncedFromText })
       .then(result => {
         if (result == null) return
+
         setResult(result)
       }).catch((error) => {
         console.log('Error: ', error)
       })
-  }, [fromText, fromLanguage, toLanguage])
+  }, [debouncedFromText, fromLanguage, toLanguage])
+
+  const handleClipboard = () => {
+    window.navigator.clipboard.writeText(result)
+      .catch(() => { })
+  }
 
   return (
     <main className="main">
@@ -53,12 +63,26 @@ function App () {
           type={SectionType.From}
           onChange={setFromText}
         />
-        <TextArea
-          loading={loading}
-          value={result}
-          type={SectionType.To}
-          onChange={setResult}
-        />
+
+        <div className='main__textareas-clipboard'>
+          <TextArea
+            loading={loading}
+            value={result}
+            type={SectionType.To}
+            onChange={setResult}
+          />
+          <button
+              onClick={handleClipboard}
+              data-tooltip-id="clipboard"
+              data-tooltip-content="Traducción copiada"
+              data-tooltip-place="bottom"
+              data-tooltip-delay-hidden={100}
+            >
+            <Tooltip id="clipboard" openOnClick />
+            <ClipboardIcon />
+          </button>
+
+        </div>
       </section>
 
     </main>
