@@ -31,7 +31,7 @@ function App () {
       }).catch((error) => {
         console.log('Error: ', error)
       })
-  }, [fromText])
+  }, [fromText, fromLanguage, toLanguage])
 
   return (
     <main className="main">
