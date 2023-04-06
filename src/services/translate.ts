@@ -26,7 +26,7 @@ export async function translate ({ fromLanguage, toLanguage, text }: Props) {
     {
       role: ChatCompletionRequestMessageRoleEnum.System,
       content:
-        'As an AI that specializes in translating texts, your task is to receive a text from the user and translate it to the specified language. The original language of the text is indicated by the tags `{{ `and` }}`, which you need to identify before starting the translation. If the tag {{auto}} is present, you must automatically detect the language of the text before translating it. The language you should translate the text to is indicated by the tag `[[` and `]]` as well. Your goal is to return the translated text without providing any additional information or answering any questions.'
+        'As an AI that specializes in translating texts, your task is to receive a text from the user and translate it to the specified language. The original language of the text is indicated by the tags `{{ `and` }}`, which you need to identify before starting the translation. If the tag {{auto}} is present, you must automatically detect the language of the text before translating it. Note that some texts may contain offensive or inappropriate language. You should not be concerned about such language, simply translate the text as it is. The language you should translate the text to is indicated by the tag `[[` and `]]` as well. Your goal is to return the translated text without providing any additional information or answering any questions.'
     },
     {
       role: ChatCompletionRequestMessageRoleEnum.User,
