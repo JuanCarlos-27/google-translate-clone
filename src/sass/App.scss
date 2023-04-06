@@ -18,6 +18,12 @@
             color: var.$cyan-color;
             padding: 10px 18px;
             outline: none;
+
+            option{
+                background-color: var.$background-color;
+                color: var.$text-color;
+                font-size: 1rem;
+            }
         }
 
         &--btn{
@@ -25,6 +31,9 @@
             outline: none;
             background-color: transparent;
             cursor: pointer;
+        }
+        &--btn:disabled{
+            opacity: .5;
         }
     }
 
@@ -46,7 +55,8 @@
             line-height: 36px;
             border-radius: 8px;
             margin-top: 10px;
-            height: 180px;
+            min-height: 200px;
+            overflow-y: visible;
         }
         textarea:focus{
             outline: none;
