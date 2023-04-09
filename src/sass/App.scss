@@ -1,7 +1,23 @@
 @use "./variables" as var;
 
-.main{
-    
+
+@mixin commonButtonStyle(){
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+@mixin iconsColorAndHover(){
+    svg{
+        fill: var.$icons-color;
+    }
+    svg:hover{
+        fill: lighten(var.$icons-color, 50%) ;
+    }
+}
+
+.main{ 
     &__title{
         text-align: center;
         margin-bottom: 30px;
@@ -12,12 +28,13 @@
         grid-template-columns: 5fr 1fr 5fr;
         select{
             background-color: transparent;
+            outline: none;
+            cursor: pointer;
             border: 1px solid var.$border-color;
             border-radius: 8px;
             font-size: 1rem;
             color: var.$cyan-color;
             padding: 10px 18px;
-            outline: none;
 
             option{
                 background-color: var.$background-color;
@@ -27,10 +44,8 @@
         }
 
         &--btn{
-            border: none;
-            outline: none;
-            background-color: transparent;
-            cursor: pointer;
+            @include commonButtonStyle();
+            @include iconsColorAndHover();
         }
         &--btn:disabled{
             opacity: .5;
@@ -47,22 +62,21 @@
 
         &-clipboard{
             position: relative;
-            button{
+            .clipboardButton{
                 position: absolute;
                 left: $textarea-padding;
                 bottom: $textarea-padding;
-                border: none;
-                outline: none;
-                cursor: pointer;
-                background-color: transparent;
-        
-                svg{
-                    fill: var.$icons-color;
-                }
-                svg:hover{
-                    fill: lighten(var.$icons-color, 50%) ;
-                }
+                @include commonButtonStyle();
+                @include iconsColorAndHover();
             }
+            .voiceButton{
+                position: absolute;
+                @include commonButtonStyle();
+                @include iconsColorAndHover();
+                left: $textarea-padding * 4;
+                bottom: $textarea-padding;
+            }
+
             textarea{
                 background-color: #303134;
             }
@@ -79,7 +93,7 @@
             line-height: 36px;
             border-radius: 8px;
             margin-top: 10px;
-            min-height: 250px;
+            min-height: 220px;
             overflow-y: visible;
         }
         textarea:focus{
@@ -88,8 +102,5 @@
         > textarea{
             background-color: transparent;
         }
-
-
-
     }
 }
